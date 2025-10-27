@@ -1,4 +1,4 @@
-package com.example.fake_store.ui.theme
+package com.example.fake_store.presentation.theme.ui
 
 import androidx.compose.ui.graphics.Color
 
