@@ -22,6 +22,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,15 +35,34 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.fake_store.domain.ViewModels.LoginVM
+import com.example.fake_store.domain.resopnses.UserResponce
 import com.example.fake_store.presentation.theme.ui.Background
 import com.example.fake_store.presentation.theme.ui.GrayFont
+import kotlinx.coroutines.launch
 
 @Composable
-fun LogIn(innerPadding: PaddingValues, navController: NavController) {
+fun LogIn(innerPadding: PaddingValues, navController: NavController, vm: LoginVM = viewModel()) {
+
+    var users = vm.users.collectAsState()
+
     var emailValue by remember { mutableStateOf("") }
     var passwordValue by remember { mutableStateOf("") }
     var transformation by remember { mutableStateOf(true) }
+
+    LaunchedEffect(users.value) {
+        val result = check(emailValue, passwordValue, users.value)
+        if (result) {
+            println("Yay, all good!")
+        } else {
+            println(users.value)
+            println("result = false")
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -123,7 +144,11 @@ fun LogIn(innerPadding: PaddingValues, navController: NavController) {
         )
 
         Button(
-            {},
+            {
+                vm.viewModelScope.launch {
+                    vm.GetAllUsers()
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 15.dp)
@@ -147,4 +172,13 @@ fun LogIn(innerPadding: PaddingValues, navController: NavController) {
         }
 
     }
+}
+
+fun check(email: String, password: String, users: List<UserResponce>): Boolean {
+    for (i in users){
+        if (i.email == email && i.password == password) {
+            return true
+        }
+    }
+    return false
 }

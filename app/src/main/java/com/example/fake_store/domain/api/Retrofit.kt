@@ -11,4 +11,5 @@ object RetrofitClient {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+    val usersService = retrofit.create(UsersApiService::class.java)
 }
