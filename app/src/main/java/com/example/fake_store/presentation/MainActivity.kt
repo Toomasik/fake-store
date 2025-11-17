@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.fake_store.presentation.screens.LogIn
+import com.example.fake_store.presentation.screens.MainScreen
+import com.example.fake_store.presentation.screens.SignUp
 import com.example.fake_store.presentation.theme.ui.FakeStoreTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,13 +23,17 @@ class MainActivity : ComponentActivity() {
             val navHost = rememberNavController()
             FakeStoreTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavHost(navController = navHost, startDestination = "LogIn") {
+                    NavHost(navController = navHost, startDestination = "a") {
                         composable("LogIn") {
                             LogIn(innerPadding, navHost)
                         }
 
                         composable("SignUp") {
                             SignUp(innerPadding, navHost)
+                        }
+
+                        composable("a") {
+                            MainScreen(innerPadding, navHost)
                         }
                     }
 
