@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fake_store.presentation.screens.LogIn
-import com.example.fake_store.presentation.screens.MainScreen
+import com.example.fake_store.presentation.screens.main.MainScreen
 import com.example.fake_store.presentation.screens.SignUp
 import com.example.fake_store.presentation.theme.ui.FakeStoreTheme
 
